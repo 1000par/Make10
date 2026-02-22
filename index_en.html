@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Make10メーカー</title>
+<title>Make10 simulator</title>
 <style>
 body {
   font-family: sans-serif;
@@ -25,24 +25,24 @@ button {
 </head>
 <body>
 
-<a href="index_en.html">English</a>
+<a href="index.html">日本語</a>
 
-<h2 style="text-align: center;">【Make10メーカー】<br>四則演算で指定の数を作る</h2>
-<div style="text-align: right; font-size: 0.9em; color: #555;">1000par 制作</div>
+<h2 style="text-align: center;">【Make10 simulator】<br>Make the Target Number Using + − × ÷</h2>
+<div style="text-align: right; font-size: 0.9em; color: #555;">Production of 1000par</div>
 <div>
-  <label for="target">作る数: </label>
-  <input type="number" id="target" value="10" placeholder="例: 10">
+  <label for="target">Target Number: </label>
+  <input type="number" id="target" value="10" placeholder="ex: 10">
 </div>
 
 <div>
-  <label for="numbers">数字(スペース区切りで入力してください): </label>
-  <input type="text" id="numbers" value="1 1 5 8" placeholder="例: 1 1 5 8">
+  <label for="numbers">Numbers (separate with spaces): </label>
+  <input type="text" id="numbers" value="1 1 5 8" placeholder="ex: 1 1 5 8">
 </div>
 
-<button onclick="readNumbers()">実行</button>
+<button onclick="readNumbers()">Run</button>
 
 <div>
-  <label for="progress">探索進行度: </label>
+  <label for="progress">Progress: </label>
   <progress id="progress" value="0" max="10000000" style="width: 300px;"></progress>
   <span id="progressText">0 / 10000000</span>
 </div>
@@ -72,7 +72,7 @@ async function readNumbers() {
     .map(n => ({ value: n, expr: n.toString() }));
 
   document.getElementById("result").textContent =
-    "入力された配列: [" + arr.map(x=>x.value).join(", ") + "]";
+    "Input Array: [" + arr.map(x=>x.value).join(", ") + "]";
 
   document.getElementById("output").innerText = "";
   await isEnableMakeValueAsync(arr, target);
@@ -80,22 +80,22 @@ async function readNumbers() {
   let text = "";
 
   if (solutions.size > 0 && solutions.size < MAX_SOLUTIONS && tries < MAX_TRIES) {
-    text += "全ての解が見つかりました！\n";
+    text += "All solutions have been found!\n";
   }
 
   if (solutions.size === 0) {
-    if (tries < MAX_TRIES) text += "作れません\n";
+    if (tries < MAX_TRIES) text += "Can't Make...\n";
   } else {
-    text += "見つかった式:\n" +
+    text += "Found Solutions:\n" +
         [...solutions].map(s => s + "=" + target).join("\n");
 
     if (solutions.size >= MAX_SOLUTIONS) {
-      text += `\n\n※${MAX_SOLUTIONS}個の解で打ち切りました`;
+      text += `\n\n*Stopped after reaching ${MAX_SOLUTIONS} solutions.`;
     }
   }
 
   if (tries >= MAX_TRIES) {
-    text += `\n\n※探索数が${MAX_TRIES}に達したため打ち切りました`;
+    text += `\n\n*Search stopped after reaching ${MAX_TRIES} attempts.`;
   }
 
   // まとめて出力
